@@ -1,0 +1,138 @@
+/* Brand typography from the Cloudera marketing deck: Plus Jakarta Sans for
+   text, JetBrains Mono kept for numerals/IDs (consistent across platforms).
+   Bundled via @fontsource (imported in main.tsx) so air-gapped clusters need
+   no access to Google Fonts. */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  background-color: #f5f5fa; /* surface-0 */
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #1a1a26; /* deck NEAR_BLACK */
+}
+
+code,
+pre,
+kbd,
+samp {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* No custom ::-webkit-scrollbar styling: defining it forces a classic
+   scrollbar that reserves a right-edge gutter, which kept the fixed orange
+   brand bar from reaching the browser edge. Overlay scrollbars float over
+   content instead. Firefox keeps a thin, theme-matched scrollbar (this rule
+   does not force a gutter there). */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #c9c9dd transparent;
+}
+
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-fade-slide-in {
+  animation: fadeSlideIn 0.3s ease-out;
+}
+
+@keyframes pulseGlow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 12px 4px rgba(239, 68, 68, 0.15);
+  }
+}
+.animate-pulse-glow {
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+
+/* Orange variant for the active training-pipeline stage (fraud UI keeps the
+   red pulseGlow above). */
+@keyframes pulseGlowAccent {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 85, 12, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 12px 4px rgba(255, 85, 12, 0.18);
+  }
+}
+.animate-pulse-glow-accent {
+  animation: pulseGlowAccent 2s ease-in-out infinite;
+}
+
+/* ---- deck chrome ---------------------------------------------------------
+   Panels and headlines borrowed from the Cloudera deck's body slides: white
+   panels lifted by a soft indigo-tinted shadow instead of boxed borders, and
+   section titles set in deck indigo under a short orange tick. */
+.panel {
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow:
+    0 1px 2px rgba(16, 0, 70, 0.05),
+    0 8px 28px -10px rgba(16, 0, 70, 0.1);
+}
+.slide-title {
+  color: #110046;
+  font-weight: 600;
+  font-size: 0.875rem;
+  letter-spacing: -0.01em;
+}
+.slide-title::before {
+  content: "";
+  display: block;
+  width: 26px;
+  height: 3px;
+  border-radius: 1px;
+  background: #ff550c;
+  margin-bottom: 7px;
+}
+.slide-title-lg {
+  font-size: 1.125rem;
+}
+
+/* Pipeline-flow connectors: a dotted line whose dots march toward the active
+   stage (Template-D animated-connector idiom from the design spec). */
+.connector {
+  background-image: radial-gradient(circle, #c9c9dd 1.5px, transparent 1.5px);
+  background-size: 10px 3px;
+  background-repeat: repeat-x;
+  background-position: 0 center;
+  height: 3px !important;
+}
+.connector-done {
+  background-image: radial-gradient(circle, rgba(16, 185, 129, 0.55) 1.5px, transparent 1.5px);
+}
+.connector-active {
+  background-image: radial-gradient(circle, #ff550c 1.5px, transparent 1.5px);
+  animation: dashFlow 0.7s linear infinite;
+}
+
+@keyframes dashFlow {
+  to {
+    background-position: 10px center;
+  }
+}
